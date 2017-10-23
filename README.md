@@ -12,7 +12,7 @@ var map = require("through2-map-promise");
 var xtend = require("xtend");
 
 // in an HTTP request handler
-db.users.find({}).pipe(map(function(user){
+db.users.find({}).pipe(map.obj(function(user){
     var locationId = user.location;
     return db.locations.findOne({_id: locationId}).then(function(location){
         return xtend(user, {
