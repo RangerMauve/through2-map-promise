@@ -66,3 +66,22 @@ test("throwing", function (t) {
 
 	spigot(["hello", "world"]).pipe(stream).pipe(concat(confirm));
 });
+
+// Tests scenario from in https://github.com/RangerMauve/through2-map-promise/issues/2
+test("unpiped", function (t) {
+	var VALUES = 100;
+	var data = [];
+	var i = VALUES;
+	while(i--) data.push(i);
+
+	var seen = 0;
+	var out = throughPromise.obj(function(item) {seen++;});
+
+	out.on('finish', function() {
+		t.equal(seen, VALUES, "expected " + VALUES + " results");
+		t.end();
+	});
+
+	spigot({objectMode: true}, data)
+	.pipe(out);
+});

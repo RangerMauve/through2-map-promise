@@ -35,8 +35,7 @@ function makeCtor(options, transform) {
 	function doTransform(chunk, encoding, callback) {
 		var stream = this;
 		Promise.resolve(chunk).then(transform).then(function (result) {
-			stream.push(result);
-			callback(null);
+			callback(null, result);
 		}).catch(callback);
 	}
 }
